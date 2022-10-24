@@ -4,34 +4,41 @@ const authorInput = document.querySelector('.author');
 const titleInput = document.querySelector('.title');
 const submit = document.querySelector('form');
 
+let generateId = () => {
+  return Math.floor((1 + Math.random()) * 0x10000)
+    .toString(16)
+    .substring(1);
+};
+
 const booksData = [
   {
     title: 'MG6',
     author: 'ahmed',
-    id: 1,
+    id: generateId(),
   },
   {
     title: 'BMW',
     author: 'mohamed',
-    id: 2,
+    id: generateId(),
   },
   {
     title: 'toyota',
     author: 'osama',
-    id: 3,
+    id: generateId(),
   },
 ];
-
-let content = '';
 
 const generate = (dt) => {
   return `<li>
     <h2>${dt.title} by ${dt.author}</h2>
-    <button class='remove'>${dt.id}</button>
+    <button onclick="removeBook('${dt.id}')" class='remove'>Remove</button>
   </li>`;
 };
 
+let getData = JSON.parse(localStorage.getItem('books'));
+let content = '';
 const displayData = (data) => {
+  if (!data.length) group.innerHTML = '';
   data.forEach((book) => {
     content += generate(book);
     group.innerHTML = content;
@@ -39,47 +46,36 @@ const displayData = (data) => {
   content = '';
 };
 
-let getData = JSON.parse(localStorage.getItem('books'));
-
-window.addEventListener(
-  'load',
-  () => {
-    if (!getData) {
-      localStorage.setItem('books', JSON.stringify(booksData));
-      getData = JSON.parse(localStorage.getItem('books'));
-      displayData(getData);
-    } else displayData(getData);
-    const removeBtn = document.querySelectorAll('.remove');
-    Array.from(removeBtn).forEach((bt) => {
-      bt.addEventListener('click', () => {
-        console.log('adsad');
-        console.log(bt);
-        removeBook();
-      });
-    });
-  },
-  false
-);
-
-const removeBook = () => {
-  const toto = getData.filter((element, index) => {
-    return element.id !== index;
-  });
-
-  localStorage.setItem('books', JSON.stringify(toto));
-  displayData(getData);
-};
-
 const addBook = () => {
   getData.push({
     title: titleInput.value,
     author: authorInput.value,
-    id: getData.length ? getData[getData.length - 1].id + 1 : 1,
+    id: generateId(),
   });
 
   localStorage.setItem('books', JSON.stringify(getData));
   displayData(getData);
 };
+
+const removeBook = (id) => {
+  getData = getData.filter((element) => {
+    return element.id !== id;
+  });
+  localStorage.setItem('books', JSON.stringify(getData));
+  displayData(getData);
+};
+
+window.addEventListener(
+  'load',
+  () => {
+    if (!getData) {
+      localStorage.setItem('books', JSON.stringify([]));
+      getData = JSON.parse(localStorage.getItem('books'));
+      displayData(getData);
+    } else displayData(getData);
+  },
+  false
+);
 
 submit.addEventListener('submit', (e) => {
   e.preventDefault();
