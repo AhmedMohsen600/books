@@ -1,0 +1,47 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+  font-size: 17px;
+}
+
+.hero,
+.add {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 40vh;
+  padding: 90px;
+  gap: 16px;
+}
+
+.hero div {
+  width: 50%;
+  margin: auto;
+  text-align: center;
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+li {
+  display: flex;
+  list-style: none;
+  padding: 16px 8px;
+  justify-content: space-between;
+  width: 100%;
+}
+
+li h2 {
+  color: #000;
+  font-size: 20px;
+}
