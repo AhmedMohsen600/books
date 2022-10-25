@@ -1,3 +1,4 @@
+// const Store = require('./util/store');
 class Book {
   constructor(title, author, id) {
     this.title = title;
@@ -22,11 +23,10 @@ class UI {
     content = '';
   }
 
-  static generateId = () => {
-    return Math.floor((1 + Math.random()) * 0x10000)
+  static generateId = () =>
+    Math.floor((1 + Math.random()) * 0x10000)
       .toString(16)
       .substring(1);
-  };
 
   static cleanInputs() {
     document.querySelector('#title').value = '';
@@ -38,12 +38,8 @@ class UI {
 class Store {
   static getBooks() {
     let books;
-    if (localStorage.getItem('books') === null) {
-      books = [];
-    } else {
-      books = JSON.parse(localStorage.getItem('books'));
-    }
-
+    if (!localStorage.getItem('books')) books = [];
+    else books = JSON.parse(localStorage.getItem('books'));
     return books;
   }
 
@@ -56,9 +52,7 @@ class Store {
 
   static removeBook(id) {
     let books = Store.getBooks();
-    books = books.filter((book) => {
-      return book.id !== id;
-    });
+    books = books.filter((book) => book.id !== id);
     localStorage.setItem('books', JSON.stringify(books));
     UI.displayBooks(books);
   }
@@ -81,6 +75,5 @@ document.querySelector('#form-book').addEventListener('submit', (e) => {
 
 document.querySelector('#book-list').addEventListener('click', (e) => {
   const id = e.target.parentElement.parentElement.id;
-
   Store.removeBook(id);
 });
