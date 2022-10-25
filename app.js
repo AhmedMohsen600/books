@@ -6,7 +6,6 @@ class Book {
     this.id = id;
   }
 }
-
 class UI {
   static displayBooks(books) {
     const list = document.querySelector('#book-list');
@@ -23,10 +22,9 @@ class UI {
     content = '';
   }
 
-  static generateId = () =>
-    Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
+  static generateId = () => Math.floor((1 + Math.random()) * 0x10000)
+    .toString(16)
+    .substring(1);
 
   static cleanInputs() {
     document.querySelector('#title').value = '';
@@ -74,6 +72,6 @@ document.querySelector('#form-book').addEventListener('submit', (e) => {
 });
 
 document.querySelector('#book-list').addEventListener('click', (e) => {
-  const id = e.target.parentElement.parentElement.id;
+  const { id } = e.target.parentElement.parentElement;
   Store.removeBook(id);
 });
