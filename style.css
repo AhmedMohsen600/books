@@ -45,32 +45,3 @@ li h2 {
   color: #000;
   font-size: 20px;
 }
-
-li button {
-  padding: 10px 20px;
-  border: 1px solid #000;
-  background-color: transparent;
-}
-
-.add {
-  display: flex;
-  flex-direction: column;
-}
-
-.add form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.push {
-  padding: 8px 16px;
-  border: 1px solid #000;
-  background: transparent;
-  align-self: flex-end;
-}
-
-input {
-  padding: 10px;
-  width: 100%;
-}
