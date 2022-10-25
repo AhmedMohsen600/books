@@ -1,83 +1,86 @@
-const group = document.querySelector('ul');
-const addBtn = document.querySelector('.push');
-const authorInput = document.querySelector('.author');
-const titleInput = document.querySelector('.title');
-const submit = document.querySelector('form');
+class Book {
+  constructor(title, author, id) {
+    this.title = title;
+    this.author = author;
+    this.id = id;
+  }
+}
 
-let generateId = () => {
-  return Math.floor((1 + Math.random()) * 0x10000)
-    .toString(16)
-    .substring(1);
-};
+class UI {
+  static displayBooks(books) {
+    const list = document.querySelector('#book-list');
+    if (!books.length) list.innerHTML = '';
+    let content = '';
+    books.forEach((book) => {
+      content += `<tr id=${book.id}>
+        <td>${book.title}</td>
+        <td>${book.author}</td>
+        <td><a href="#" class="btn btn-danger btn-sm delete">X</a></td>
+        </tr>`;
+      list.innerHTML = content;
+    });
+    content = '';
+  }
 
-const booksData = [
-  {
-    title: 'MG6',
-    author: 'ahmed',
-    id: generateId(),
-  },
-  {
-    title: 'BMW',
-    author: 'mohamed',
-    id: generateId(),
-  },
-  {
-    title: 'toyota',
-    author: 'osama',
-    id: generateId(),
-  },
-];
+  static generateId = () => {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  };
 
-const generate = (dt) => {
-  return `<li>
-    <h2>${dt.title} by ${dt.author}</h2>
-    <button onclick="removeBook('${dt.id}')" class='remove'>Remove</button>
-  </li>`;
-};
+  static cleanInputs() {
+    document.querySelector('#title').value = '';
+    document.querySelector('#author').value = '';
+  }
+}
 
-let getData = JSON.parse(localStorage.getItem('books'));
-let content = '';
-const displayData = (data) => {
-  if (!data.length) group.innerHTML = '';
-  data.forEach((book) => {
-    content += generate(book);
-    group.innerHTML = content;
-  });
-  content = '';
-};
+// localstorage
+class Store {
+  static getBooks() {
+    let books;
+    if (localStorage.getItem('books') === null) {
+      books = [];
+    } else {
+      books = JSON.parse(localStorage.getItem('books'));
+    }
 
-const addBook = () => {
-  getData.push({
-    title: titleInput.value,
-    author: authorInput.value,
-    id: generateId(),
-  });
+    return books;
+  }
 
-  localStorage.setItem('books', JSON.stringify(getData));
-  displayData(getData);
-};
+  static addBook(book) {
+    const books = Store.getBooks();
+    books.push(book);
+    localStorage.setItem('books', JSON.stringify(books));
+    UI.displayBooks(books);
+  }
 
-const removeBook = (id) => {
-  getData = getData.filter((element) => {
-    return element.id !== id;
-  });
-  localStorage.setItem('books', JSON.stringify(getData));
-  displayData(getData);
-};
+  static removeBook(id) {
+    let books = Store.getBooks();
+    books = books.filter((book) => {
+      return book.id !== id;
+    });
+    localStorage.setItem('books', JSON.stringify(books));
+    UI.displayBooks(books);
+  }
+}
 
-window.addEventListener(
-  'load',
-  () => {
-    if (!getData) {
-      localStorage.setItem('books', JSON.stringify([]));
-      getData = JSON.parse(localStorage.getItem('books'));
-      displayData(getData);
-    } else displayData(getData);
-  },
-  false
-);
+// events
+document.addEventListener('DOMContentLoaded', () => {
+  const books = Store.getBooks();
+  UI.displayBooks(books);
+});
 
-submit.addEventListener('submit', (e) => {
+document.querySelector('#form-book').addEventListener('submit', (e) => {
   e.preventDefault();
-  addBook();
+  const title = document.querySelector('#title').value;
+  const author = document.querySelector('#author').value;
+  const book = new Book(title, author, UI.generateId());
+  Store.addBook(book);
+  UI.cleanInputs();
+});
+
+document.querySelector('#book-list').addEventListener('click', (e) => {
+  const id = e.target.parentElement.parentElement.id;
+
+  Store.removeBook(id);
 });
