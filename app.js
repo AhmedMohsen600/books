@@ -1,4 +1,3 @@
-// const Store = require('./util/store');
 class Book {
   constructor(title, author, id) {
     this.title = title;
@@ -55,6 +54,26 @@ class Store {
     UI.displayBooks(books);
   }
 }
+class Switch {
+  static changeContent(key) {
+    const formMan = document.querySelector('.form-man');
+    const listMan = document.querySelector('.list-man');
+    const contactMan = document.querySelector('.contact-man');
+    if (key === 'List') {
+      formMan.style.display = 'none';
+      contactMan.style.display = 'none';
+      listMan.style.display = 'block';
+    } else if (key === 'Add new') {
+      listMan.style.display = 'none';
+      contactMan.style.display = 'none';
+      formMan.style.display = 'block';
+    } else {
+      formMan.style.display = 'none';
+      listMan.style.display = 'none';
+      contactMan.style.display = 'block';
+    }
+  }
+}
 
 // events
 document.addEventListener('DOMContentLoaded', () => {
@@ -74,4 +93,10 @@ document.querySelector('#form-book').addEventListener('submit', (e) => {
 document.querySelector('#book-list').addEventListener('click', (e) => {
   const { id } = e.target.parentElement.parentElement;
   Store.removeBook(id);
+});
+
+document.querySelectorAll('.change').forEach((li) => {
+  li.addEventListener('click', () => {
+    Switch.changeContent(li.textContent);
+  });
 });

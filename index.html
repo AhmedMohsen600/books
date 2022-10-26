@@ -14,43 +14,76 @@
     <title>Awosome books</title>
   </head>
   <body>
-    <div class="container w-50">
-      <h1 class="display-4 text-center mt-5">Awosome Book</h1>
-      <table contenteditable="1" class="table table-striped mt-5 mb-5">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Author</th>
-          </tr>
-        </thead>
-        <tbody id="book-list"></tbody>
-      </table>
-      <form class="mt-5 d-flex flex-column" id="form-book">
-        <div class="form-group">
-          <label for="title">Title</label>
+    <header class="bg-info">
+      <nav>
+        <h1>Awosome Books</h1>
+        <ul>
+          <li class="change">List</li>
+          <li class="change">Add new</li>
+          <li class="change">Contact</li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <div class="container w-50 list-man">
+        <h1 class="display-4 text-center mt-5">Awosome Book</h1>
+        <table contenteditable="1" class="table table-striped mt-5 mb-5">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Author</th>
+            </tr>
+          </thead>
+          <tbody id="book-list"></tbody>
+        </table>
+      </div>
+
+      <!-- form  -->
+      <div class="container w-50 form-man">
+        <form class="mt-5 d-flex flex-column" id="form-book">
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input
+              placeholder="Title"
+              type="text"
+              id="title"
+              class="form-control"
+            />
+          </div>
+          <div class="form-group">
+            <label for="author">author</label>
+            <input
+              type="text"
+              id="author"
+              class="form-control"
+              placeholder="Author"
+            />
+          </div>
           <input
-            placeholder="Title"
-            type="text"
-            id="title"
-            class="form-control"
+            class="btn btn-success btn-block align-self-end mb-5 w-25"
+            type="submit"
+            value="Add book"
           />
+        </form>
+      </div>
+
+      <!-- contact  -->
+      <div class="contact-man">
+        <div class="container w-50">
+          <h1>Contact Information</h1>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Perspiciatis velit in debitis sint, ut sequi numquam sed rem iusto
+            molestiae
+          </p>
+          <ul class="contact-ul">
+            <li class="lis">Our email</li>
+            <li class="lis">Our email</li>
+            <li class="lis">Our email</li>
+          </ul>
         </div>
-        <div class="form-group">
-          <label for="author">author</label>
-          <input
-            type="text"
-            id="author"
-            class="form-control"
-            placeholder="Author"
-          />
-        </div>
-        <input
-          class="btn btn-success btn-block align-self-end mb-5 w-25"
-          type="submit"
-          value="Add book"
-        />
-      </form>
-    </div>
+      </div>
+    </main>
     <script src="./app.js"></script>
   </body>
 </html>
